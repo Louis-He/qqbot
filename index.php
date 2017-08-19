@@ -72,6 +72,12 @@
 			echo json_encode(array("type"=>"text", "msg"=>$ret));
 			//echo "curl \"http://localhost:3200/send?type=group&to=$gid&msg=$ret\"";
 		}
+	}elseif ((substr($msg, 0, strlen("AQI"))=='AQI') || (substr($msg, 0, strlen("空气质量"))=='空气质量')){
+		//获取上海市分区空气质量实时数据
+		$js = curl("http://219.233.250.38:8087/AQI/PatrolHandler.do?provider=SEMCShare.WebSiteJS&method=ZoneData&groupID=102");
+		$js = str_replace("</sub>","",$js);
+		$js = str_replace("<sub>","",$js);
+
 	}elseif (is_command($req, "!sign")) {
 		//签到功能
 		$ret = sign($groupid, $uid);
